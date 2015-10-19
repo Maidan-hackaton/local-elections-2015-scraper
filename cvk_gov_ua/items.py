@@ -27,6 +27,9 @@ class County(scrapy.Item):
     council = scrapy.Field()
     number = scrapy.Field()
 
+class RegionCounty(County):
+    boundaries = scrapy.Field()
+
 class CityCouncil(scrapy.Item):
     name = scrapy.Field()
     region = scrapy.Field()
