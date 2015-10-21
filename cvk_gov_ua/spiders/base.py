@@ -8,5 +8,5 @@ class BaseSpider(Spider):
     def getBaseUrl(self):
         return BaseSpider.host + BaseSpider.base
 
-    def build_request(self, url, parse):
-        return Request(url='http://' + self.getBaseUrl() + url, callback=parse)
+    def build_request(self, url, parse, meta=None):
+        return Request(url='http://' + self.getBaseUrl() + url, callback=parse, meta=meta)

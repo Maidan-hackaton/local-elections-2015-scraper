@@ -14,8 +14,8 @@ class Party(scrapy.Item):
 class Candidate(scrapy.Item):
     full_name = scrapy.Field()
     party = scrapy.Field()
-    council = scrapy.Field()
-    county = scrapy.Field()
+    region = scrapy.Field()
+    county_number = scrapy.Field()
 
 class MayorCandidate(scrapy.Item):
     full_name = scrapy.Field()
