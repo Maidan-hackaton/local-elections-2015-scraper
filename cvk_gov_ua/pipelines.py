@@ -15,7 +15,7 @@ from scrapy import signals
 from scrapy.exporters import JsonItemExporter
 from cvk_gov_ua.spiders.mayors import MayorsSpider
 from cvk_gov_ua.spiders.counties import RegionCountiesSpider
-from cvk_gov_ua.items import MayorCandidate, CityCouncil, RegionCounty, Candidate
+from cvk_gov_ua.items import MayorCandidate, CityCouncil, CityCounty,    RegionCounty, RegionCandidate, CityCouncilCandidate
 
 class JsonExportPipeline(object):
 
@@ -69,10 +69,14 @@ class JsonExportPipeline(object):
             self.mayor_exporter.export_item(item)
             self.counties_exporter.export_item(item)
         else:
-            if item.__class__ == Candidate:
+            if item.__class__ == RegionCandidate:
                 filename = "data/region_candidates.json"
             elif item.__class__ == RegionCounty:
                 filename = 'data/region_counties.json'
+            elif item.__class__ == CityCouncilCandidate:
+                filename = 'data/city_council_candidates.json'
+            elif item.__class__ == CityCounty:
+                filename = 'data/city_counties.json'
             exporter_name = item.__class__.__name__
             if exporter_name not in self.exporters:
                 self.exporters[exporter_name] = self.create_exporter(filename)

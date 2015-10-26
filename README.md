@@ -14,6 +14,9 @@ All data was scraped from [ІАС "Місцеві вибори"](http://cvk.gov.
 ## How to run
 
     scrapy crawl mayors
+    scrapy crawl region_counties
+    scrapy crawl city_counties
+    ./post_process/run.py
 
 ## Results
 
