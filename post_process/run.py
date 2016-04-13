@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# encoding=utf-8
 import json, os, csv
 
 def parseJSON(filename):
@@ -30,7 +31,12 @@ def candidates_to_csv(filename, dirname):
         return "%s, %s" % (region, council)
     for candidate in candidates:
         region = candidate['region']
-        council = candidate['council']
+        if 'council' in candidate:
+            council = candidate['council']
+        elif 'city_council' in candidate:
+            council = candidate['city_council']
+        else:
+            council = u'Обласна рада'
         full_council_name = full_council(region, council)
         if full_council_name not in councils:
             councils[full_council_name] = []
@@ -40,10 +46,15 @@ def candidates_to_csv(filename, dirname):
 
 def to_csv(candidates, csv_filename):
     with open(csv_filename, 'wb') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=candidates[0].keys())
+        writer = csv.DictWriter(csvfile, fieldnames=sorted(candidates[0].keys()))
         writer.writeheader()
-        for candidate in sorted(candidates, cmp=lambda x, y: cmp(int(x['county_number']), int(y['county_number']))):
+        if 'county_number' in candidates[0]:
+            candidates = sorted(candidates, cmp=lambda x, y: cmp(int(x['county_number']), int(y['county_number'])))
+        else:
+            candidates = sorted(candidates, cmp=lambda x, y: cmp(x['full_name'], y['full_name']))
+        for candidate in candidates:
             writer.writerow({k:v.encode('utf8') for k,v in candidate.items()})
 
-#split_candidate_by_region('data/city_council_candidates.json', 'data/by_region')
-candidates_to_csv('data/city_council_candidates.json', 'data/csv/city_council_candidates')
+#candidates_to_csv('data/city_council_candidates.json', 'data/csv/city_council_candidates')
+#candidates_to_csv('data/region_council_candidates.json', 'data/csv/region_council_candidates')
+candidates_to_csv('data/mayor_candidates.json', 'data/csv/mayor_candidates')

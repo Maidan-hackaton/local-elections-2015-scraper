@@ -70,7 +70,7 @@ class JsonExportPipeline(object):
             self.counties_exporter.export_item(item)
         else:
             if item.__class__ == RegionCandidate:
-                filename = "data/region_candidates.json"
+                filename = "data/region_council_candidates.json"
             elif item.__class__ == RegionCounty:
                 filename = 'data/region_counties.json'
             elif item.__class__ == CityCouncilCandidate:
